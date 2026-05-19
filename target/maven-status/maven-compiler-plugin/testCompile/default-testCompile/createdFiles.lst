@@ -1,0 +1,5 @@
+com\scheduling\scheduler\LinearSchedulerTest.class
+com\scheduling\model\TaskTest.class
+com\scheduling\util\CsvLoaderTest.class
+com\scheduling\scheduler\HeapSchedulerTest.class
+com\scheduling\util\PriorityCalculatorTest.class

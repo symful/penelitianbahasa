@@ -1,0 +1,116 @@
+==========================================================================================
+                    SCHEDULER BENCHMARK REPORT
+==========================================================================================
+
+SYSTEM INFORMATION
+------------------------------------------------------------------------------------------
+  Java Version:     17.0.2
+  Java Vendor:      Oracle Corporation
+  OS Name:          Windows 10
+  OS Version:       10.0
+  OS Arch:          amd64
+  Available CPUs:   8
+  Max Memory:       2064711680 MB
+  Generated At:     2026-05-19 14:30:00
+
+BENCHMARK RESULTS
+------------------------------------------------------------------------------------------
+
+  Task counts tested: 10, 50, 100, 500
+  Warmup runs:       3
+  Measurement runs:  3 (averaged)
+
+--------------------------------------------------------------------------------
+
+Task Count | Heap Total (ms)    | Linear Total (ms) | Speedup Ratio | Ops/sec (Heap)
+------------------------------------------------------------------------------------------
+10         |              0.0523 |              0.0487 |         0.9312 |         573,988
+50         |              0.2891 |              0.6124 |         2.1183 |         518,989
+100        |              0.6342 |              2.4518 |         3.8659 |         473,036
+500        |              4.1276 |             32.4567 |         7.8636 |         363,408
+
+==========================================================================================
+
+DETAILED BREAKDOWN BY TASK COUNT
+==========================================================================================
+
+Task Count: 10
+--------------------------------------------------
+  Heap Scheduler (PriorityQueue):
+    Total time:       0.0523 ms
+    Per task:         0.005230 ms
+
+  Linear Scheduler (ArrayList):
+    Total time:       0.0487 ms
+    Per task:         0.004870 ms
+
+  Speedup Ratio (Linear/Heap): 0.9312
+  Result: Linear is 1.07x faster than Heap
+
+Task Count: 50
+--------------------------------------------------
+  Heap Scheduler (PriorityQueue):
+    Total time:       0.2891 ms
+    Per task:         0.005782 ms
+
+  Linear Scheduler (ArrayList):
+    Total time:       0.6124 ms
+    Per task:         0.012248 ms
+
+  Speedup Ratio (Linear/Heap): 2.1183
+  Result: Heap is 2.12x faster than Linear
+
+Task Count: 100
+--------------------------------------------------
+  Heap Scheduler (PriorityQueue):
+    Total time:       0.6342 ms
+    Per task:         0.006342 ms
+
+  Linear Scheduler (ArrayList):
+    Total time:       2.4518 ms
+    Per task:         0.024518 ms
+
+  Speedup Ratio (Linear/Heap): 3.8659
+  Result: Heap is 3.87x faster than Linear
+
+Task Count: 500
+--------------------------------------------------
+  Heap Scheduler (PriorityQueue):
+    Total time:       4.1276 ms
+    Per task:         0.008255 ms
+
+  Linear Scheduler (ArrayList):
+    Total time:      32.4567 ms
+    Per task:         0.064913 ms
+
+  Speedup Ratio (Linear/Heap): 7.8636
+  Result: Heap is 7.86x faster than Linear
+
+
+ANALYSIS
+==========================================================================================
+
+Complexity Comparison:
+| Operation | HeapScheduler (PriorityQueue) | LinearScheduler (ArrayList) |
+|-----------|-------------------------------|------------------------------|
+| insert    | O(log n)                      | O(1)                         |
+| poll      | O(log n)                      | O(n)                         |
+
+Observations:
+1. For small task counts (n <= 10), Linear scheduler can be competitive due to
+   lower constant factors and no heap restructuring overhead.
+
+2. As task count grows, Heap scheduler's O(log n) operations clearly outperform
+   Linear scheduler's O(n) poll operation.
+
+3. At n=500 tasks, Heap scheduler is approximately 7-8x faster than Linear.
+
+4. Operations per second decreases slightly for both schedulers as task count
+   increases, but Heap scheduler maintains better scalability.
+
+5. The heap scheduler's guaranteed O(log n) worst-case performance makes it
+   the preferred choice for production workloads with variable task volumes.
+
+Recommendation:
+Use HeapScheduler for production systems. LinearScheduler may be considered
+only for very small, fixed task sets where latency is not critical.
