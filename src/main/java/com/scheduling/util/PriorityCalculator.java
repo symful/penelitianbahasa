@@ -18,7 +18,7 @@ public final class PriorityCalculator {
         DEFAULT_TIME_WEIGHT
     };
 
-    private static final double URGENCY_CAP = 10.0;
+    private static final double URGENCY_CAP = 1.0;
 
     private PriorityCalculator() {
         // Utility class, no instantiation

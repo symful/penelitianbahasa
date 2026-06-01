@@ -39,8 +39,8 @@ class PriorityCalculatorTest {
         Task pastTask = new Task(2, "Past Task", "S002", 1, 1,
                 LocalDateTime.now().minusDays(1), 60);
         double priority = PriorityCalculator.calculatePriority(pastTask);
-        // Urgency should be capped at URGENCY_CAP (10.0)
-        assertTrue(priority >= 10.0, "Priority with past deadline should have max urgency");
+        // Urgency should be capped at URGENCY_CAP (1.0)
+        assertTrue(priority >= 1.0, "Priority with past deadline should have max urgency");
     }
 
     @Test
